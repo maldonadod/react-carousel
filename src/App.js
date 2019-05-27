@@ -1,51 +1,22 @@
 import React from 'react';
+import useRequest from './hooks/useRequest';
+import AlbumDescription from './AlbumDescription';
 import './App.css';
-
 import Carousel from "./Carousel/Carousel";
 
-function Description({activeSlide}) {
-  return activeSlide ? <p>{activeSlide.title}</p> : "Loading..."
-}
-
-function useRequest(url, defaultRes) {
-
-  const [response, setResponse] = React.useState(defaultRes);
-
-  React.useEffect(() => {
-
-    fetch(url)
-    .then(response => response.json())
-    .then(response => {
-
-
-      return response
-        .results
-        .map(result => {
-          return {
-            artworkUrl: result.artworkUrl100,
-            title: result.collectionName,
-            key: result.collectionName,
-          }
-        })
-    })
-    .then((response) => {
-      setResponse(response)
-    })
-  }, [url])
-
-  return response
-}
+const URL = "https://itunes.apple.com/search?term=david+bowie&media=music&entity=album";
 
 function App() {
 
   const [activeSlide, setActiveSlide] = React.useState(null);
-  const items = useRequest("https://itunes.apple.com/search?term=david+bowie&media=music&entity=album", []);
+  const defaultItems = [];
+  const items = useRequest(URL, defaultItems);
 
   return (
     <div className="App">
       <Carousel onActiveSlideChanged={setActiveSlide} items={items} />
 
-      <Description activeSlide={activeSlide} />
+      <AlbumDescription activeSlide={activeSlide} />
     </div>
   );
 }

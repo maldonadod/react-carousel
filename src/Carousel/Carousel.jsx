@@ -26,7 +26,7 @@ export default function Carousel({ items, onActiveSlideChanged = noop }) {
   const { slides, currentIndex, next, previous } = useCarousel(items);
 
   React.useEffect(() => {
-    onActiveSlideChanged(items[currentIndex])
+	onActiveSlideChanged(items[currentIndex])
   }, [items, onActiveSlideChanged, currentIndex])
 
   return (
